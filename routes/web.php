@@ -27,6 +27,12 @@ Route::view('/categorias','categoria.index');
 Route::resource('categorias',categoriaController::class);
 
 
+
+
+Route::view('/panel2','panel.index2')->name('panel2');
+
+Route::view('/template2','template2');
+
 Route::get('/login', function () {
     return view('auth.login');
 });
