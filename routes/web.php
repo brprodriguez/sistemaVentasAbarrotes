@@ -24,7 +24,7 @@ Route::view('/panel','panel.index')->name('panel');
 
 Route::view('/categorias','categoria.index');
 
-Route::resource('categorias',categoriaController::class);
+Route::resource('categorias',categoriaController::class);   // Esto me genera la rutas 
 
 
 
