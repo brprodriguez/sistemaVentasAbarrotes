@@ -14,7 +14,7 @@
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 1000,
+    timer: 1500,
     timerProgressBar: true,
     didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -60,8 +60,11 @@
                                             <td>{{$categoria->caracteristica->descripcion }}</td>
                                             <td> 
                                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                         
-                                                <button type="button" class="btn btn-warning">Editar</button>
+                                         <form action="{{route('categorias.edit',['categoria'=>$categoria])}}" method='GET'>
+                                            
+                                                <button type="submit" class="btn btn-warning">Editar</button>
+                                         </form>
+                                            
                                                 <button type="button" class="btn btn-danger">Eliminar</button>
                                                 </div>
                                             </td>

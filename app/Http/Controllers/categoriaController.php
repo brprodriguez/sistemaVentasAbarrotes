@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCategoriaRequest;
+use App\Http\Requests\UpdateCategoriaRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caracteristica; 
 use App\Models\Categoria; 
@@ -71,9 +72,10 @@ class categoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Categoria $categoria)
     {
-        //
+        
+        return view('categoria.edit',['categoria'=>$categoria]);
     }
 
     /**
@@ -83,9 +85,11 @@ class categoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        //
+        Caracteristica::where('id',$categoria->caracteristica->id)->update($request->validated());
+
+        return redirect()->route('categorias.index')->with('success','Categoria Editada');
     }
 
     /**
