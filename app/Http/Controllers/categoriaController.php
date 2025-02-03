@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Caracteristica; 
 use App\Models\Categoria; 
 
+
 class categoriaController extends Controller
 {
     /**

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Caracteristica; 
+use App\Models\Presentacione; 
 class presentacioneController extends Controller
 {
     /**
@@ -13,7 +15,9 @@ class presentacioneController extends Controller
      */
     public function index()
     {
-        //
+        $presentaciones = Presentacione::with('caracteristica')->latest()->get();
+       
+        return view('presentacione.index',['presentaciones'=>$presentaciones]);
     }
 
     /**
@@ -23,7 +27,8 @@ class presentacioneController extends Controller
      */
     public function create()
     {
-        //
+        return view('presentacione.create');
+
     }
 
     /**
