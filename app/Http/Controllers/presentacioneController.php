@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caracteristica; 
 use App\Models\Presentacione; 
+
+use App\Http\Requests\StorePresentacioneRequest;
+use App\Http\Requests\UpdatePresentacioneRequest;
+
 class presentacioneController extends Controller
 {
     /**
@@ -37,9 +41,19 @@ class presentacioneController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePresentacioneRequest $request)
     {
-        //
+        try{
+            DB::beginTransaction();
+            $caracteristica = Caracteristica::create($request->validated());
+            $caracteristica->presentacione()->create([
+                'caracteristica_id' => $caracteristica->id
+            ]);
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+        return redirect()->route('presentaciones.index')->with('success','Presentación registrada');
     }
 
     /**
@@ -59,9 +73,9 @@ class presentacioneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Presentacione $presentacione)
     {
-        //
+        return view('presentacione.edit',['presentacione'=>$presentacione]);
     }
 
     /**
@@ -71,9 +85,11 @@ class presentacioneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePresentacioneRequest $request, Presentacione $presentacione)
     {
-        //
+        Caracteristica::where('id',$presentacione->caracteristica->id)->update($request->validated());
+
+        return redirect()->route('presentaciones.index')->with('success','Presentación Editada');
     }
 
     /**
@@ -84,6 +100,15 @@ class presentacioneController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $msj = "";
+        $presentacione = Presentacione::find($id);
+        if($presentacione->caracteristica->estado == 1){
+            Caracteristica::where('id',$presentacione->caracteristica->id)->update(['estado'=> 0]);
+            $msj = 'Presentación Eliminada';
+        }else{
+            Caracteristica::where('id',$presentacione->caracteristica->id)->update(['estado'=> 1]);
+            $msj = 'Presentación Restaurada';
+        }
+        return redirect()->route('presentaciones.index')->with('success',$msj);
     }
 }
