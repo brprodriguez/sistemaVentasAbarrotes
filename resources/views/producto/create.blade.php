@@ -8,6 +8,8 @@
         resize: none;
     }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endpush
 
 @section('content')
@@ -56,7 +58,7 @@
                                      <!--Fecha de vencimiento-->
                                      <div class="col-md-6 mb-2">
                                         <label for="fecha_vencimiento" class="form-label">Fecha  Vencimiento:</label>
-                                        <input type="text" name="fecha_vencimiento" id="nombre" class="form-control" value="{{old('nombre')}}">
+                                        <input type="date" name="fecha_vencimiento" id="nombre" class="form-control" value="{{old('nombre')}}">
                                         @error('fecha_vencimiento')
                                         <small class="text-danger">{{'*'.$message}}</small>
                                         @enderror
@@ -71,7 +73,51 @@
                                         <small class="text-danger">{{'*'.$message}}</small>
                                         @enderror
                                     </div>
+    
+                                    <!--Marca -->
+                                    <div class="col-md-6 mb-2">
+                                        <label for="marca_id" class="form-label">Marca:</label>
+                                        <select data-size="4" title="Selecciones una marca" data-live-search="true" name="marca_id" id="marca_id" class="form-control selectpicker show-tick">
+                                            @foreach ($marcas as $item)
+                                            <option value="{{$item}}">{{$item->caracteristica->nombre}}</option>
+                                            @endforeach 
+                                        </select>
+                                        
+                                        @error('marca_id')
+                                        <small class="text-danger">{{'*'.$message}}</small>
+                                        @enderror
+                                    </div>
+                                  
+                                     <!-- Presentacion -->
+                                     <div class="col-md-6 mb-2">
+                                        <label for="presentacione_id" class="form-label">Presentación:</label>
+                                        <select data-size="4" title="Selecciones una presentación" data-live-search="true" name="presentacione_id" id="presentacione_id" class="form-control selectpicker show-tick">
+                                            @foreach ($presentaciones as $item)
+                                            <option value="{{$item}}">{{$item->caracteristica->nombre}}</option>
+                                            @endforeach 
+                                        </select>
+                                        
+                                        @error('presentacione_id')
+                                        <small class="text-danger">{{'*'.$message}}</small>
+                                        @enderror
+                                    </div>
 
+                                       <!-- Categoria -->
+                                       <div class="col-md-6 mb-2">
+                                        <label for="categoria" class="form-label">Categoria:</label>
+                                        <select data-size="4" title="Selecciones una categoría" data-live-search="true" name="categoria[]" id="categoria" class="form-control selectpicker show-tick" multiple>
+                                            @foreach ($categorias as $item)
+                                            <option value="{{$item}}">{{$item->caracteristica->nombre}}</option>
+                                            @endforeach 
+                                        </select>
+                                        
+                                        @error('presentacione_id')
+                                        <small class="text-danger">{{'*'.$message}}</small>
+                                        @enderror
+                                      </div> 
+                                      <div class="col-12 text-center">
+                                            <buttom type="submit" class="btn btn-primary"> Guardar </button>
+                                       </div>
                                 </div>
                             </form>
                         </div>
@@ -79,5 +125,6 @@
 @endsection
 
 @push('js')
-
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 @endpush
